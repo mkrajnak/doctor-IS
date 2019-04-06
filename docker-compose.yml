@@ -1,0 +1,19 @@
+version: '3'
+
+services:
+  db:
+    image: postgres
+    volumes:
+      - doctor-is-db:/var/lib/pgsql/data
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/mysiste
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+volumes:
+  doctor-is-db:
