@@ -8,12 +8,18 @@ class Department(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField("Department name", max_length=30)
 
+    def __str__(self):
+        return self.name
+
 
 class RoomTypes(models.Model):
     """
     Description: Model Description
     """
     id = models.CharField("Room type", max_length=10, primary_key=True)
+
+    def __str__(self):
+        return self.id
 
 
 class Room(models.Model):
@@ -25,6 +31,9 @@ class Room(models.Model):
     room_type = models.ForeignKey(RoomTypes, on_delete=models.CASCADE)
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.id
+
 
 class Doctor(models.Model):
     """
@@ -34,6 +43,9 @@ class Doctor(models.Model):
     first_name = models.CharField("Doctor's first name", max_length=50)
     last_name = models.CharField("Doctor's last name", max_length=50)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
 
 class Nurse(models.Model):
@@ -45,6 +57,9 @@ class Nurse(models.Model):
     last_name = models.CharField("Nurse's last name", max_length=50)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
 
 class Patient(models.Model):
     """
@@ -54,6 +69,9 @@ class Patient(models.Model):
     insurance_num = models.CharField("Insurance number", max_length=30)
     first_name = models.CharField("Nurse's first name", max_length=50)
     last_name = models.CharField("Nurse's last name", max_length=50)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
 
 class Drugs(models.Model):
@@ -66,6 +84,9 @@ class Drugs(models.Model):
     price = models.DecimalField(verbose_name="Drug's price", max_digits=10, decimal_places=2)
     pbi = models.DecimalField(verbose_name="Amount paid by insurance", max_digits=10, decimal_places=2)
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Treatments(models.Model):
     """
@@ -75,6 +96,9 @@ class Treatments(models.Model):
     name = models.CharField("Treatment name", max_length=30)
     description = models.CharField("Treatment description", max_length=300)
 
+    def __str__(self):
+        return f'{self.name}'
+
 
 class Diseases(models.Model):
     """
@@ -83,6 +107,9 @@ class Diseases(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField("Disease name", max_length=30)
     description = models.CharField("Disease description", max_length=300)
+
+    def __str__(self):
+        return f'{self.name}'
 
 
 class Visit(models.Model):
@@ -98,3 +125,6 @@ class Visit(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.DO_NOTHING)
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
+
+    def __str__(self):
+        return f'{self.id} {self.patient.first_name} {self.patient.last_name}'
