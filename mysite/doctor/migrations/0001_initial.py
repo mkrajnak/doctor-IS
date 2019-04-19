@@ -115,8 +115,9 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Visit',
+            name='Patient',
             fields=[
+
                 ('id', models.AutoField(primary_key=True, serialize=False)),
                 ('start_date', models.DateTimeField(auto_now_add=True)),
                 ('end_date', models.DateTimeField()),
@@ -129,15 +130,34 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.CreateModel(
-            name='Nurse',
+            name='Room',
             fields=[
                 ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, primary_key=True, serialize=False, to=settings.AUTH_USER_MODEL)),
                 ('room', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='doctor.Room')),
             ],
         ),
         migrations.AddField(
-            model_name='doctor',
+            model_name='user',
             name='room',
             field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='doctor.Room'),
+        ),
+        migrations.AddField(
+            model_name='user',
+            name='user_permissions',
+            field=models.ManyToManyField(blank=True, help_text='Specific permissions for this user.', related_name='user_set', related_query_name='user', to='auth.Permission', verbose_name='user permissions'),
+        ),
+        migrations.CreateModel(
+            name='Visit',
+            fields=[
+                ('id', models.AutoField(primary_key=True, serialize=False)),
+                ('start_date', models.DateTimeField(auto_now_add=True)),
+                ('end_date', models.DateTimeField()),
+                ('disease', models.ManyToManyField(to='doctor.Diseases')),
+                ('drugs', models.ManyToManyField(to='doctor.Drugs')),
+                ('room', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='doctor.Room')),
+                ('treatment', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='doctor.Treatments')),
+                ('doctor', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='doctor.Doctor')),
+                ('patient', models.ForeignKey(on_delete=django.db.models.deletion.DO_NOTHING, to='doctor.Patient')),
+            ],
         ),
     ]
