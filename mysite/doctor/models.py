@@ -67,8 +67,8 @@ class Patient(models.Model):
     """
     id = models.AutoField(primary_key=True)
     insurance_num = models.CharField("Insurance number", max_length=30)
-    first_name = models.CharField("Nurse's first name", max_length=50)
-    last_name = models.CharField("Nurse's last name", max_length=50)
+    first_name = models.CharField("Patient's first name", max_length=50)
+    last_name = models.CharField("Patient's last name", max_length=50)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'

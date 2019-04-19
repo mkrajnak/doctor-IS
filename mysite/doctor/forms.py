@@ -40,8 +40,10 @@ class PatientForm(forms.ModelForm):
         insurance_num = cleaned_data.get("insurance_num")
 
         if not insurance_num.isdigit():
-            msg = "Must be valid"
+            msg = "Invalid format, e.g for 190419/0013 enter 1904190013"
             self.add_error('insurance_num', msg)
+        if len(insurance_num) > 10 or len(insurance_num) < 10:
+            self.add_error('insurance_num', 'Number must contain 10 digits')
 
     class Meta:
         model = Patient
