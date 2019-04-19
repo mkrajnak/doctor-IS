@@ -4,7 +4,7 @@ from .models import Doctor
 
 
 def index(request):
-    return HttpResponse("Hello, world.")
+    return render(request, 'index.html', None)
 
 
 def get_doctors(request):
