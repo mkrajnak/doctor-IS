@@ -7,9 +7,8 @@ class User(AbstractUser):
     is_nurse = models.BooleanField('nurse status', default=False)
     is_receptionist = models.BooleanField('receptionist status', default=False)
     is_patient = models.BooleanField('patient status', default=False)
-    first_name = models.CharField("Doctor's first name", max_length=50)
-    last_name = models.CharField("Doctor's last name", max_length=50)
-    room = models.ForeignKey("Room", on_delete=models.CASCADE, null=True)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
 
 
 class Department(models.Model):
@@ -59,6 +58,7 @@ class Doctor(models.Model):
     Description: Model Description
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -69,6 +69,7 @@ class Nurse(models.Model):
     Description: Model Description
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -79,6 +80,7 @@ class Patient(models.Model):
     Description: Model Description
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    insurance_num = models.CharField("Insurance number", max_length=30)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
