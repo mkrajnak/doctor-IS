@@ -58,6 +58,10 @@ class DiseasesForm(forms.ModelForm):
 
 
 class VisitForm(forms.ModelForm):
+    # SplitDateTimeWidget
+    start_date = forms.DateField(widget=forms.SelectDateWidget)
+    end_date = forms.DateField(widget=forms.SelectDateWidget)
+
     class Meta:
         model = Visit
         fields = '__all__'
