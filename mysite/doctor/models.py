@@ -127,4 +127,4 @@ class Visit(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return f'{self.id} {self.patient.first_name} {self.patient.last_name}'
+        return f'{self.id} {self.patient.first_name} {self.patient.last_name }'
