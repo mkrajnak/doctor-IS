@@ -7,6 +7,9 @@
   <body>
     <span>
       <div>
+        <a href="{% url 'add_department' %}">Add Department</a>
+      </div>
+      <div>
         <a href="{% url 'add_room' %}">Add Room</a>
       </div>
       <div>
@@ -14,6 +17,21 @@
       </div>
       <div>
         <a href="{% url 'add_doctor' %}">Add Doctor</a>
+      </div>
+      <div>
+        <a href="{% url 'add_nurse' %}">Add Nurse</a>
+      </div>
+      <div>
+        <a href="{% url 'add_patient' %}">Add Patient</a>
+      </div>
+      <div>
+        <a href="{% url 'add_drugs' %}">Add Drug</a>
+      </div>
+      <div>
+        <a href="{% url 'add_treatments' %}">Add Treatment</a>
+      </div>
+      <div>
+        <a href="{% url 'add_visits' %}">Add Visit</a>
       </div>
     </span>
     <!--  Generic print of added objects to the db e.g. after adding doctor-->
