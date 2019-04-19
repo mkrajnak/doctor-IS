@@ -1,5 +1,6 @@
 from django.urls import path
 from django.conf.urls import include
+from django.contrib.auth.views import LoginView, LogoutView
 from . import views
 
 urlpatterns = [
@@ -15,4 +16,6 @@ urlpatterns = [
     path('add_treatments/', views.add_treatments, name='add_treatments'),
     path('add_visits/', views.add_visits, name='add_visits'),
     path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
 ]

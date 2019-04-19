@@ -4,7 +4,7 @@ from .forms import *
 
 
 def index(request):
-    return get_doctors(request)
+    return render(request, 'index.html', None)
 
 
 def get_departments(request):

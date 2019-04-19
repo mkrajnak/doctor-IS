@@ -1,4 +1,15 @@
 from django.db import models
+from django.contrib.auth.models import AbstractUser
+
+
+class User(AbstractUser):
+    is_doctor = models.BooleanField('doctor status', default=False)
+    is_nurse = models.BooleanField('nurse status', default=False)
+    is_receptionist = models.BooleanField('receptionist status', default=False)
+    is_patient = models.BooleanField('patient status', default=False)
+    first_name = models.CharField("Doctor's first name", max_length=50)
+    last_name = models.CharField("Doctor's last name", max_length=50)
+    room = models.ForeignKey("Room", on_delete=models.CASCADE, null=True)
 
 
 class Department(models.Model):
@@ -35,14 +46,19 @@ class Room(models.Model):
         return self.id
 
 
+class Receptionist(models.Model):
+    """docstring for Receptionist"""
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+
 class Doctor(models.Model):
     """
     Description: Model Description
     """
-    id = models.AutoField(primary_key=True)
-    first_name = models.CharField("Doctor's first name", max_length=50)
-    last_name = models.CharField("Doctor's last name", max_length=50)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -52,10 +68,7 @@ class Nurse(models.Model):
     """
     Description: Model Description
     """
-    id = models.AutoField(primary_key=True)
-    first_name = models.CharField("Nurse's first name", max_length=50)
-    last_name = models.CharField("Nurse's last name", max_length=50)
-    room = models.ForeignKey(Room, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
@@ -65,7 +78,7 @@ class Patient(models.Model):
     """
     Description: Model Description
     """
-    id = models.AutoField(primary_key=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     insurance_num = models.CharField("Insurance number", max_length=30)
     first_name = models.CharField("Patient's first name", max_length=50)
     last_name = models.CharField("Patient's last name", max_length=50)
