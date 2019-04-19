@@ -34,6 +34,15 @@ class NurseForm(forms.ModelForm):
 
 
 class PatientForm(forms.ModelForm):
+
+    def clean(self):
+        cleaned_data = super(PatientForm, self).clean()
+        insurance_num = cleaned_data.get("insurance_num")
+
+        if not insurance_num.isdigit():
+            msg = "Must be valid"
+            self.add_error('insurance_num', msg)
+
     class Meta:
         model = Patient
         fields = '__all__'
