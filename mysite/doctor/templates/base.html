@@ -123,17 +123,17 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 					<div class="nav_w3ls">
 						<nav>
 							<ul class="menu">
-								{% if request.user.is_receptionist %}
+								{% if request.user and request.user.is_receptionist %}
 								<li class="{% if request.resolver_match.url_name == 'reception' %}active{% endif %}" ><a href="/reception">Reception</a></li>
 								{% endif %}
-								{% if request.user.is_doctor %}
+								{% if request.user and request.user.is_doctor %}
 								<li class="{% if request.resolver_match.url_name == 'doctor' %}active{% endif %}" class="mx-lg-4 mx-md-3 my-md-0 my-2"><a href="/doctor">Doctor</a></li>
 								{% endif %}
-								{% if request.user.is_nurse %}
+								{% if request.user and request.user.is_nurse %}
 								<li class="{% if request.resolver_match.url_name == 'nurse' %}active{% endif %}" class="mx-lg-4 mx-md-3 my-md-0 my-2"><a href="/nurse">Nurse</a>
 								</li>
 								{% endif %}
-								{% if request.user.is_superuser %}
+								{% if request.user and request.user.is_superuser %}
 								<li class="{% if request.resolver_match.url_name == 'admin' %}active{% endif %}" ><a href="/admin">Admin</a></li>
 								{% endif %}
 							</ul>

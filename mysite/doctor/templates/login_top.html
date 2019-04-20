@@ -1,4 +1,4 @@
-{% if user.is_authenticated %}
+{% if user and user.is_authenticated %}
 <form id="logoutForm" action="/logout/" method="post" class="navbar-right">
     {% csrf_token %}
     <a href="javascript:document.getElementById('logoutForm').submit()" class="login-button-2 text-uppercase text-bl">
