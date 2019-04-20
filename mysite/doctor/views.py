@@ -125,8 +125,10 @@ def add_doctor(request):
             return get_doctors(request)
     else:
         form = DoctorForm()
+        userform = UserForm()
 
     return render(request, 'add_form.html', {
+        'userform': userform,
         'form': form,
         'submit': '/doctor/add_doctor/',
         'title': 'Doctor'
@@ -141,8 +143,10 @@ def add_nurse(request):
             return get_nurses(request)
     else:
         form = NurseForm()
+        userform = UserForm()
 
     return render(request, 'add_form.html', {
+        'userform': userform,
         'form': form,
         'submit': '/doctor/add_nurse/',
         'title': 'Nurse'
@@ -157,9 +161,11 @@ def add_patient(request):
             return get_patients(request)
     else:
         form = PatientForm()
+        userform = UserForm()
 
     return render(request, 'add_form.html', {
         'form': form,
+        'userform': userform,
         'submit': '/doctor/add_patient/',
         'title': 'Patient'
         })

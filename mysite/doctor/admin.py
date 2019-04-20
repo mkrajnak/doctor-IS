@@ -1,9 +1,10 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Doctor, Nurse, Department, RoomTypes, Room, Patient
-from .models import Drugs, Treatments, Diseases, Visit
+from .models import *
 
+
+admin.site.register(User)
 admin.site.register(Doctor)
 admin.site.register(Nurse)
 admin.site.register(Department)
