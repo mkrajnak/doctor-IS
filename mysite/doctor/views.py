@@ -78,7 +78,7 @@ def add_department(request):
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/doctor/add_department/',
+        'submit': '/add_department/',
         'title': 'Department'
         })
 
@@ -96,7 +96,7 @@ def add_room_type(request):
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/doctor/add_room_type/',
+        'submit': '/add_room_type/',
         'title': 'Room type'
         })
 
@@ -112,7 +112,7 @@ def add_room(request):
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/doctor/add_room/',
+        'submit': '/add_room/',
         'title': 'Room'
         })
 
@@ -122,8 +122,11 @@ def add_doctor(request):
         form = DoctorForm(request.POST)
         userform = UserForm(request.POST)
         if form.is_valid() and userform.is_valid():
-            userform.save()
-            form.save()
+            user = userform.save()
+            doctor = form.save(commit=False)
+            doctor.user = User.objects.get(username=user.username)
+            doctor.user.is_doctor = True
+            doctor.save()
             return get_doctors(request)
     else:
         form = DoctorForm()
@@ -132,7 +135,7 @@ def add_doctor(request):
     return render(request, 'add_form.html', {
         'userform': userform,
         'form': form,
-        'submit': '/doctor/add_doctor/',
+        'submit': '/add_doctor/',
         'title': 'Doctor'
         })
 
@@ -142,8 +145,11 @@ def add_nurse(request):
         form = NurseForm(request.POST)
         userform = UserForm(request.POST)
         if form.is_valid() and userform.is_valid():
-            userform.save()
-            form.save()
+            user = userform.save()
+            nurse = form.save(commit=False)
+            nurse.user = User.objects.get(username=user.username)
+            nurse.user.is_nurse = True
+            nurse.save()
             return get_nurses(request)
     else:
         form = NurseForm()
@@ -152,7 +158,7 @@ def add_nurse(request):
     return render(request, 'add_form.html', {
         'userform': userform,
         'form': form,
-        'submit': '/doctor/add_nurse/',
+        'submit': '/add_nurse/',
         'title': 'Nurse'
         })
 
@@ -162,8 +168,11 @@ def add_patient(request):
         form = PatientForm(request.POST)
         userform = UserForm(request.POST)
         if form.is_valid() and userform.is_valid():
-            userform.save()
-            form.save()
+            user = userform.save()
+            patient = form.save(commit=False)
+            patient.user = User.objects.get(username=user.username)
+            patient.user.is_patient = True
+            patient.save()
             return get_patients(request)
     else:
         form = PatientForm()
@@ -172,7 +181,7 @@ def add_patient(request):
     return render(request, 'add_form.html', {
         'form': form,
         'userform': userform,
-        'submit': '/doctor/add_patient/',
+        'submit': '/add_patient/',
         'title': 'Patient'
         })
 
@@ -188,7 +197,7 @@ def add_drugs(request):
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/doctor/add_drugs/',
+        'submit': '/add_drugs/',
         'title': 'Drug'
         })
 
@@ -204,7 +213,7 @@ def add_treatments(request):
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/doctor/add_treatments/',
+        'submit': '/add_treatments/',
         'title': 'Treatment'
         })
 
@@ -220,7 +229,7 @@ def add_diseases(request):
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/doctor/add_diseases/',
+        'submit': '/add_diseases/',
         'title': 'Disease'
         })
 
@@ -236,6 +245,6 @@ def add_visits(request):
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/doctor/add_visits/',
+        'submit': '/add_visits/',
         'title': 'Visit'
         })
