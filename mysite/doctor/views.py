@@ -120,7 +120,9 @@ def add_room(request):
 def add_doctor(request):
     if request.method == 'POST':
         form = DoctorForm(request.POST)
-        if form.is_valid():
+        userform = UserForm(request.POST)
+        if form.is_valid() and userform.is_valid():
+            userform.save()
             form.save()
             return get_doctors(request)
     else:
@@ -138,7 +140,9 @@ def add_doctor(request):
 def add_nurse(request):
     if request.method == 'POST':
         form = NurseForm(request.POST)
-        if form.is_valid():
+        userform = UserForm(request.POST)
+        if form.is_valid() and userform.is_valid():
+            userform.save()
             form.save()
             return get_nurses(request)
     else:
@@ -156,7 +160,9 @@ def add_nurse(request):
 def add_patient(request):
     if request.method == 'POST':
         form = PatientForm(request.POST)
-        if form.is_valid():
+        userform = UserForm(request.POST)
+        if form.is_valid() and userform.is_valid():
+            userform.save()
             form.save()
             return get_patients(request)
     else:
