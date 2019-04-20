@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.timezone import now
 
 
 class User(AbstractUser):
@@ -132,7 +133,7 @@ class Visit(models.Model):
     treatment = models.ForeignKey(Treatments, on_delete=models.CASCADE)
     disease = models.ManyToManyField(Diseases)
     drugs = models.ManyToManyField(Drugs)
-    start_date = models.DateTimeField(auto_now_add=True)
+    start_date = models.DateTimeField(default=now, blank=True)
     end_date = models.DateTimeField()
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.DO_NOTHING)

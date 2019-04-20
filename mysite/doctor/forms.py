@@ -117,19 +117,35 @@ class DiseasesForm(forms.ModelForm):
 
 class VisitForm(forms.ModelForm):
 
-    # SplitDateTimeWidget
-    start_date = forms.DateTimeField(widget=forms.SelectDateWidget)
-    end_date = forms.DateTimeField(widget=forms.SelectDateWidget)
-
     def __init__(self, *args, **kwargs):
         super(VisitForm, self).__init__(*args, **kwargs)
-        self.fields['treatment'].widget.attrs.update({'class': 'form-control'})
-        self.fields['room'].widget.attrs.update({'class': 'form-control'})
         self.fields['patient'].widget.attrs.update({'class': 'form-control'})
+        self.fields['disease'].widget.attrs.update({
+            'class': 'form-control',
+            'style': 'min-height: 100px;'
+        })
+        self.fields['treatment'].widget.attrs.update({'class': 'form-control'})
+        self.fields['drugs'].widget.attrs.update({
+            'class': 'form-control',
+            'style': 'min-height: 100px;'
+        })
+        self.fields['room'].widget.attrs.update({'class': 'form-control'})
         self.fields['doctor'].widget.attrs.update({'class': 'form-control'})
-        self.fields['disease'].widget.attrs.update({'class': 'form-control'})
-        self.fields['drugs'].widget.attrs.update({'class': 'form-control'})
+        self.fields['start_date'] = forms.DateTimeField(
+            widget=forms.widgets.DateTimeInput(attrs={'type': 'datetime-local'}))
+        self.fields['end_date'] = forms.DateTimeField(
+            widget=forms.widgets.DateTimeInput(attrs={'type': 'datetime-local'}))
 
     class Meta:
         model = Visit
-        fields = '__all__'
+        # Force render order
+        fields = [
+            'patient',
+            'disease',
+            'treatment',
+            'drugs',
+            'room',
+            'doctor',
+            'start_date',
+            'end_date'
+        ]
