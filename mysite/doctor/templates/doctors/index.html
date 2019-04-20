@@ -33,13 +33,16 @@
       <div>
         <a href="{% url 'add_visits' %}">Add Visit</a>
       </div>
+      <div>
+        <a href="{% url 'add_receptionist' %}">Add Receptionist</a>
+      </div>
     </span>
     <!--  Generic print of added objects to the db e.g. after adding doctor-->
     {% if objects %}
         <ul>
         {% for o in objects %}
-          {% if o.first_name %}
-            <h1>{{ o.first_name }} {{ o.last_name }}</h1>
+          {% if o.user %}
+            <p>{{ o.user.first_name }} {{ o.user.last_name }}</p>
           {% else %}
             <p>{{ o.id }}</p>
           {% endif %}

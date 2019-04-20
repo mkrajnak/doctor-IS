@@ -37,6 +37,12 @@ def get_nurses(request):
     })
 
 
+def get_receptionists(request):
+    return render(request, 'doctors/index.html', {
+        'objects': Receptionist.objects.all(),
+    })
+
+
 def get_patients(request):
     return render(request, 'doctors/index.html', {
         'objects': Patient.objects.all(),
@@ -160,6 +166,28 @@ def add_nurse(request):
         'form': form,
         'submit': '/add_nurse/',
         'title': 'Nurse'
+        })
+
+
+def add_receptionist(request):
+    if request.method == 'POST':
+        form = ReceptionistForm(request.POST)
+        userform = UserForm(request.POST)
+        if form.is_valid() and userform.is_valid():
+            user = userform.save()
+            receptioninst = form.save(commit=False)
+            receptioninst.user = User.objects.get(username=user.username)
+            receptioninst.save()
+            return get_receptionists(request)
+    else:
+        form = ReceptionistForm()
+        userform = UserForm()
+
+    return render(request, 'add_form.html', {
+        'userform': userform,
+        'form': form,
+        'submit': '/add_receptionist/',
+        'title': 'Receptionist'
         })
 
 

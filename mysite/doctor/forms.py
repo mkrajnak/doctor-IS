@@ -71,6 +71,13 @@ class NurseForm(forms.ModelForm):
         exclude = ['user']
 
 
+class ReceptionistForm(forms.ModelForm):
+    class Meta:
+        model = Receptionist
+        fields = '__all__'
+        exclude = ['user']
+
+
 class PatientForm(forms.ModelForm):
 
     def clean(self):
