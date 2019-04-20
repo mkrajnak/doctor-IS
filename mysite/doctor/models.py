@@ -50,7 +50,7 @@ class Receptionist(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.user.first_name} {self.user.last_name}'
 
 
 class Doctor(models.Model):
@@ -61,7 +61,7 @@ class Doctor(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.user.first_name} {self.user.last_name}'
 
 
 class Nurse(models.Model):
@@ -72,7 +72,7 @@ class Nurse(models.Model):
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.user.first_name} {self.user.last_name}'
 
 
 class Patient(models.Model):
@@ -83,7 +83,7 @@ class Patient(models.Model):
     insurance_num = models.CharField("Insurance number", max_length=30)
 
     def __str__(self):
-        return f'{self.first_name} {self.last_name}'
+        return f'{self.user.first_name} {self.user.last_name}'
 
 
 class Drugs(models.Model):
@@ -139,4 +139,4 @@ class Visit(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return f'{self.id} {self.patient.first_name} {self.patient.last_name }'
+        return f'{self.id} {self.patient.user.first_name} {self.patient.user.last_name }'
