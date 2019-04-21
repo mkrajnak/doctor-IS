@@ -7,12 +7,6 @@ class UserForm(forms.ModelForm):
     password2 = forms.CharField(
         label='Confirm Password', widget=forms.PasswordInput)
 
-
-    def __init__(self, *args, **kwargs):
-        super(UserForm, self).__init__(*args, **kwargs)
-        self.fields['password'].widget.attrs.update({'style': 'width:100%;'})
-        self.fields['password2'].widget.attrs.update({'style': 'width:100%;'})
-
     def clean(self):
         data = super(UserForm, self).clean()
         password = data.get('password')
@@ -96,6 +90,8 @@ class PatientForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(PatientForm, self).__init__(*args, **kwargs)
         self.fields['insurance'].widget.attrs.update({'class': 'form-control'})
+        self.fields['birth_date'] = forms.DateTimeField(
+            widget=forms.widgets.DateTimeInput(attrs={'type': 'date'}))
 
     def clean(self):
         cleaned_data = super(PatientForm, self).clean()
@@ -104,13 +100,12 @@ class PatientForm(forms.ModelForm):
         if not num.isdigit():
             msg = "Invalid format, e.g for 190419/0013 enter 1904190013"
             self.add_error('birth_num', msg)
-            print(num)
         if len(num) > 10 or len(num) < 10:
             self.add_error('birth_num', 'Number must contain 10 digits')
 
     class Meta:
         model = Patient
-        fields = ['birth_num']
+        fields = '__all__'
         exclude = ['user']
 
 

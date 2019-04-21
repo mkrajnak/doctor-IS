@@ -215,21 +215,14 @@ def add_receptionist(request):
 def add_patient(request):
     if request.method == 'POST':
         form = PatientForm(request.POST)
-        userform = UserForm(request.POST)
         if form.is_valid():
-            user = userform.save()
-            patient = form.save(commit=False)
-            patient.user = User.objects.get(username=user.username)
-            patient.user.is_patient = True
-            patient.save()
+            form.save()
             return get_patients(request)
     else:
         form = PatientForm()
-        userform = UserForm()
 
     return render(request, 'add_form.html', {
         'form': form,
-        'userform': userform,
         'submit': '/add_patient/',
         'title': 'Patient'
         })

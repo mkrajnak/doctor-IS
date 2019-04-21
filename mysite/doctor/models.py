@@ -7,7 +7,6 @@ class User(AbstractUser):
     is_doctor = models.BooleanField('doctor status', default=False)
     is_nurse = models.BooleanField('nurse status', default=False)
     is_receptionist = models.BooleanField('receptionist status', default=False)
-    is_patient = models.BooleanField('patient status', default=False)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
 
@@ -91,12 +90,15 @@ class Patient(models.Model):
     """
     Description: Model Description
     """
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    id = models.AutoField(primary_key=True)
+    first_name = models.CharField("Name", max_length=50)
+    last_name = models.CharField("Surname", max_length=50)
+    birth_date = models.DateTimeField()
     birth_num = models.CharField("Birth number", max_length=10, unique=True)
     insurance = models.ForeignKey(Insurance, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f'{self.first_name} {self.last_name}'
 
 
 class Drugs(models.Model):
