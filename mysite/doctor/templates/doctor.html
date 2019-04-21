@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- page details -->
+<div class="breadcrumb-agile py-1">
+    <ol class="breadcrumb m-0">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Doctor</li>
+    </ol>
+</div>
+<!-- //page details -->
+<div class="container py-5">
+    <span>
+        <div>
+          <a href="{% url 'add_department' %}">Add Department</a>
+        </div>
+        <div>
+            <a href="{% url 'add_room' %}">Add Room</a>
+        </div>
+        <div>
+            <a href="{% url 'add_room_type' %}">Add Room Type</a>
+        </div>
+        <div>
+            <a href="{% url 'add_doctor' %}">Add Doctor</a>
+        </div>
+        <div>
+            <a href="{% url 'add_nurse' %}">Add Nurse</a>
+        </div>
+        <div>
+            <a href="{% url 'add_patient' %}">Add Patient</a>
+        </div>
+        <div>
+            <a href="{% url 'add_drugs' %}">Add Drug</a>
+        </div>
+        <div>
+            <a href="{% url 'add_treatments' %}">Add Treatment</a>
+        </div>
+        <div>
+            <a href="{% url 'add_visits' %}">Add Visit</a>
+        </div>
+    </span>
+</div>
+{% endblock %}
