@@ -4,7 +4,7 @@
 <div class="breadcrumb-agile py-1">
     <ol class="breadcrumb m-0">
         <li class="breadcrumb-item"><a href="/">Home</a></li>
-        <li class="breadcrumb-item"><a href="/doctors">Doctors</a></li>
+        <li class="breadcrumb-item"><a href="/{{ called_from }}">{{ called_from }}</a></li>
         <li class="breadcrumb-item active" aria-current="page"> {{ title }}</li>
     </ol>
 </div>
@@ -19,7 +19,7 @@
           <label>
               {{ field.label }}:
           </label>
-          <div style="padding-bottom: 10px;">
+          <div class="pb-10">
             {{ field }}
           </div>
           {% endfor %}
@@ -28,12 +28,12 @@
         <label>
             {{ field.label }}:
         </label>
-        <div style="padding-bottom: 10px;">
+        <div class="pb-10">
           {{ field }}
         </div>
         {% endfor %}
         <hr/>
-    <input type="submit" value="Submit">
+    <input type="submit" value="Submit" class="btn btn-primary">
     </form>
 </div>
 {% endblock %}

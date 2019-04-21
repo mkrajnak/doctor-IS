@@ -48,3 +48,13 @@ class VisitFilter(django_filters.FilterSet):
             'room__id': ['icontains'],
             'room__department__name': ['icontains'],
         }
+
+
+class RoomFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = Room
+        fields = {
+            'room_type__id': ['icontains'],
+            'department__name': ['icontains'],
+        }

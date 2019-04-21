@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- page details -->
+<div class="breadcrumb-agile py-1">
+    <ol class="breadcrumb m-0">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Nurse</li>
+    </ol>
+</div>
+<!-- //page details -->
+<div class="container py-5">
+    <a class="btn btn-info" href="{% url 'show_patients_nurse' %}" role="button">Show Patients</a>
+    <a class="btn btn-secondary" href="{% url 'add_patient_nurse' %}" role="button">Add Patient</a>
+    <a class="btn btn-info" href="{% url 'show_visits_nurse' %}" role="button">Show Visits</a>
+    <a class="btn btn-secondary" href="{% url 'add_visits_nurse' %}" role="button">Add Visit</a>
+</div>
+{% endblock %}
