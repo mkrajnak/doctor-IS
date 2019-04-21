@@ -7,12 +7,19 @@ class UserForm(forms.ModelForm):
     password2 = forms.CharField(
         label='Confirm Password', widget=forms.PasswordInput)
 
+
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['password'].widget.attrs.update({'style': 'width:100%;'})
+        self.fields['password2'].widget.attrs.update({'style': 'width:100%;'})
+
     def clean(self):
         data = super(UserForm, self).clean()
         password = data.get('password')
         password2 = data.get('password2')
         if password != password2:
             self.add_error('password2', 'Passwords are not matching')
+            print(self.add_error('password2', 'Passwords are'))
 
     class Meta:
         model = User
@@ -29,6 +36,12 @@ class UserForm(forms.ModelForm):
 class DepartmentForm(forms.ModelForm):
     class Meta:
         model = Department
+        fields = '__all__'
+
+
+class InsuranceForm(forms.ModelForm):
+    class Meta:
+        model = Insurance
         fields = '__all__'
 
 
@@ -80,19 +93,24 @@ class ReceptionistForm(forms.ModelForm):
 
 class PatientForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super(PatientForm, self).__init__(*args, **kwargs)
+        self.fields['insurance'].widget.attrs.update({'class': 'form-control'})
+
     def clean(self):
         cleaned_data = super(PatientForm, self).clean()
-        insurance_num = cleaned_data.get("insurance_num")
+        num = cleaned_data.get("birth_num")
 
-        if not insurance_num.isdigit():
+        if not num.isdigit():
             msg = "Invalid format, e.g for 190419/0013 enter 1904190013"
-            self.add_error('insurance_num', msg)
-        if len(insurance_num) > 10 or len(insurance_num) < 10:
-            self.add_error('insurance_num', 'Number must contain 10 digits')
+            self.add_error('birth_num', msg)
+            print(num)
+        if len(num) > 10 or len(num) < 10:
+            self.add_error('birth_num', 'Number must contain 10 digits')
 
     class Meta:
         model = Patient
-        fields = '__all__'
+        fields = ['birth_num']
         exclude = ['user']
 
 

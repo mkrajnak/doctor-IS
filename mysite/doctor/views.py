@@ -13,6 +13,12 @@ def get_departments(request):
     })
 
 
+def get_insurance(request):
+    return render(request, 'doctors/index.html', {
+        'objects': Insurance.objects.all(),
+    })
+
+
 def get_room_types(request):
     return render(request, 'doctors/index.html', {
         'objects': RoomTypes.objects.all(),
@@ -73,12 +79,28 @@ def get_visits(request):
     })
 
 
+def add_insurance(request):
+    if request.method == 'POST':
+        form = InsuranceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return get_insurance(request)
+    else:
+        form = InsuranceForm()
+
+    return render(request, 'add_form.html', {
+        'form': form,
+        'submit': '/add_insurance/',
+        'title': 'Insurance Company'
+        })
+
+
 def add_department(request):
     if request.method == 'POST':
         form = DepartmentForm(request.POST)
         if form.is_valid():
             form.save()
-            return get_doctors(request)
+            return get_departments(request)
     else:
         form = DepartmentForm()
 
@@ -92,7 +114,6 @@ def add_department(request):
 def add_room_type(request):
     if request.method == 'POST':
         form = RoomTypeForm(request.POST)
-
         if form.is_valid():
             form.save()
             return get_room_types(request)
@@ -195,7 +216,7 @@ def add_patient(request):
     if request.method == 'POST':
         form = PatientForm(request.POST)
         userform = UserForm(request.POST)
-        if form.is_valid() and userform.is_valid():
+        if form.is_valid():
             user = userform.save()
             patient = form.save(commit=False)
             patient.user = User.objects.get(username=user.username)

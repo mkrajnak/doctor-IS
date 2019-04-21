@@ -23,6 +23,17 @@ class Department(models.Model):
         return self.name
 
 
+class Insurance(models.Model):
+    """
+    Description: Model Description
+    """
+    id = models.AutoField(primary_key=True)
+    name = models.CharField("Insurance Company Name", max_length=30)
+
+    def __str__(self):
+        return self.name
+
+
 class RoomTypes(models.Model):
     """
     Description: Model Description
@@ -81,7 +92,8 @@ class Patient(models.Model):
     Description: Model Description
     """
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    insurance_num = models.CharField("Insurance number", max_length=30)
+    birth_num = models.CharField("Birth number", max_length=10, unique=True)
+    insurance = models.ForeignKey(Insurance, on_delete=models.DO_NOTHING)
 
     def __str__(self):
         return f'{self.user.first_name} {self.user.last_name}'
