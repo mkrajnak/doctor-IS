@@ -5,7 +5,7 @@ from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from .tables import *
 from .filters import *
-from django.views.generic.list import ListView
+
 
 def index(request):
     return render(request, 'index.html', None)
@@ -261,7 +261,7 @@ def add_doctor(request):
         'submit': '/add_doctor/',
         'title': 'Doctor',
         'called_from': request.path.split('/')[1],
-        })
+    })
 
 
 def add_nurse(request):
@@ -332,7 +332,7 @@ def add_patient(request):
         'submit': '/add_patient/',
         'title': 'Patient',
         'called_from': request.path.split('/')[1],
-        })
+    })
 
 
 def add_drugs(request):
