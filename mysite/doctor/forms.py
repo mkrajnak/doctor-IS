@@ -13,7 +13,6 @@ class UserForm(forms.ModelForm):
         password2 = data.get('password2')
         if password != password2:
             self.add_error('password2', 'Passwords are not matching')
-            print(self.add_error('password2', 'Passwords are'))
 
     class Meta:
         model = User
