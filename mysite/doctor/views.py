@@ -1,3 +1,5 @@
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from .models import *
 from .forms import *
@@ -5,12 +7,14 @@ from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from .tables import *
 from .filters import *
+from .decorators import *
 
 
 def index(request):
     return render(request, 'index.html', None)
 
 
+@method_decorator([login_required, nurse_required], name='dispatch')
 class FilteredPatientListView(SingleTableMixin, FilterView):
     table_class = PatientTable
     model = Patient
@@ -25,6 +29,7 @@ class FilteredPatientListView(SingleTableMixin, FilterView):
         return context
 
 
+@method_decorator([login_required, receptionist_required], name='dispatch')
 class FilteredDoctorListView(SingleTableMixin, FilterView):
     table_class = DoctorTable
     model = Doctor
@@ -39,6 +44,7 @@ class FilteredDoctorListView(SingleTableMixin, FilterView):
         return context
 
 
+@method_decorator([login_required, receptionist_required], name='dispatch')
 class FilteredNurseListView(SingleTableMixin, FilterView):
     table_class = NurseTable
     model = Nurse
@@ -53,6 +59,7 @@ class FilteredNurseListView(SingleTableMixin, FilterView):
         return context
 
 
+@method_decorator([login_required, nurse_required], name='dispatch')
 class FilteredVisitListView(SingleTableMixin, FilterView):
     table_class = VisitTable
     model = Visit
@@ -66,7 +73,37 @@ class FilteredVisitListView(SingleTableMixin, FilterView):
         context['called_from'] = self.request.path.split('/')[1]
         return context
 
+    def get_queryset(self, **kwargs):
+        queryset = super().get_queryset(**kwargs)
 
+        if not (self.request.user.is_anonymous or self.request.user.is_superuser):
+            if self.request.user.is_nurse:
+                # show only patients from nurse's department
+                queryset = queryset.filter(room__department=self.request.user.nurse.room.department)
+
+            if self.request.user.is_doctor:
+                # show only patients from doctor's department
+                queryset = queryset.filter(room__department=self.request.user.doctor.room.department)
+
+        return queryset
+
+
+@method_decorator([login_required, receptionist_required], name='dispatch')
+class ReceptionVisitListView(SingleTableMixin, FilterView):
+    table_class = VisitTablePartial
+    model = Visit
+    template_name = 'table_template.html'
+
+    filterset_class = VisitFilter
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Visit filter"
+        context['called_from'] = self.request.path.split('/')[1]
+        return context
+
+
+@method_decorator([login_required, receptionist_required], name='dispatch')
 class RoomsListView(SingleTableMixin, FilterView):
     table_class = RoomTable
     model = Room
@@ -81,18 +118,26 @@ class RoomsListView(SingleTableMixin, FilterView):
         return context
 
 
+@login_required
+@receptionist_required
 def reception_page(request):
     return render(request, 'reception.html', None)
 
 
+@login_required
+@nurse_required
 def nurse_page(request):
     return render(request, 'nurse.html', None)
 
 
+@login_required
+@doctor_required
 def doctor_page(request):
     return render(request, 'doctor.html', None)
 
 
+@login_required
+@admin_required
 def admin_page(request):
     return render(request, 'admin.html', None)
 
@@ -169,6 +214,8 @@ def get_visits(request):
     })
 
 
+@login_required
+@admin_required
 def add_insurance(request):
     if request.method == 'POST':
         form = InsuranceForm(request.POST)
@@ -186,6 +233,8 @@ def add_insurance(request):
     })
 
 
+@login_required
+@admin_required
 def add_department(request):
     if request.method == 'POST':
         form = DepartmentForm(request.POST)
@@ -203,6 +252,8 @@ def add_department(request):
     })
 
 
+@login_required
+@admin_required
 def add_room_type(request):
     if request.method == 'POST':
         form = RoomTypeForm(request.POST)
@@ -221,6 +272,8 @@ def add_room_type(request):
     })
 
 
+@login_required
+@admin_required
 def add_room(request):
     if request.method == 'POST':
         form = RoomForm(request.POST)
@@ -238,6 +291,8 @@ def add_room(request):
     })
 
 
+@login_required
+@admin_required
 def add_doctor(request):
     if request.method == 'POST':
         form = DoctorForm(request.POST)
@@ -264,6 +319,8 @@ def add_doctor(request):
     })
 
 
+@login_required
+@admin_required
 def add_nurse(request):
     if request.method == 'POST':
         form = NurseForm(request.POST)
@@ -291,6 +348,8 @@ def add_nurse(request):
     })
 
 
+@login_required
+@admin_required
 def add_receptionist(request):
     if request.method == 'POST':
         form = ReceptionistForm(request.POST)
@@ -318,6 +377,8 @@ def add_receptionist(request):
     })
 
 
+@login_required
+@nurse_required
 def add_patient(request):
     if request.method == 'POST':
         form = PatientForm(request.POST)
@@ -335,6 +396,8 @@ def add_patient(request):
     })
 
 
+@login_required
+@doctor_required
 def add_drugs(request):
     if request.method == 'POST':
         form = DrugsForm(request.POST)
@@ -352,6 +415,8 @@ def add_drugs(request):
     })
 
 
+@login_required
+@doctor_required
 def add_treatments(request):
     if request.method == 'POST':
         form = TreatmentsForm(request.POST)
@@ -369,6 +434,8 @@ def add_treatments(request):
     })
 
 
+@login_required
+@doctor_required
 def add_diseases(request):
     if request.method == 'POST':
         form = DiseasesForm(request.POST)
@@ -386,6 +453,8 @@ def add_diseases(request):
     })
 
 
+@login_required
+@nurse_required
 def add_visits(request):
     if request.method == 'POST':
         form = VisitForm(request.POST)

@@ -22,6 +22,18 @@ class VisitTable(tables.Table):
         model = Visit
 
 
+class VisitTablePartial(tables.Table):
+    class Meta:
+        model = Visit
+        exclude = (
+            'id',
+            'treatment',
+            'disease',
+            'drugs',
+            'doctor',
+        )
+
+
 class RoomTable(tables.Table):
     class Meta:
         model = Room
