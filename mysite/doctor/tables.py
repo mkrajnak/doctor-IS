@@ -20,3 +20,8 @@ class NurseTable(tables.Table):
 class VisitTable(tables.Table):
     class Meta:
         model = Visit
+
+
+class RoomTable(tables.Table):
+    class Meta:
+        model = Room

@@ -9,34 +9,11 @@
 </div>
 <!-- //page details -->
 <div class="container py-5">
-    <span>
-        <div>
-          <a href="{% url 'add_department' %}">Add Department</a>
-        </div>
-        <div>
-            <a href="{% url 'add_room' %}">Add Room</a>
-        </div>
-        <div>
-            <a href="{% url 'add_room_type' %}">Add Room Type</a>
-        </div>
-        <div>
-            <a href="{% url 'add_doctor' %}">Add Doctor</a>
-        </div>
-        <div>
-            <a href="{% url 'add_nurse' %}">Add Nurse</a>
-        </div>
-        <div>
-            <a href="{% url 'add_patient' %}">Add Patient</a>
-        </div>
-        <div>
-            <a href="{% url 'add_drugs' %}">Add Drug</a>
-        </div>
-        <div>
-            <a href="{% url 'add_treatments' %}">Add Treatment</a>
-        </div>
-        <div>
-            <a href="{% url 'add_visits' %}">Add Visit</a>
-        </div>
-    </span>
+    <a class="btn btn-info" href="{% url 'show_patients_doc' %}" role="button">Show Patients</a>
+    <a class="btn btn-secondary" href="{% url 'add_patient_doc' %}" role="button">Add Patient</a>
+    <a class="btn btn-secondary" href="{% url 'add_drugs_doc' %}" role="button">Add Drug</a>
+    <a class="btn btn-secondary" href="{% url 'add_treatments_doc' %}" role="button">Add Treatment</a>
+    <a class="btn btn-info" href="{% url 'show_visits_doc' %}" role="button">Show Visits</a>
+    <a class="btn btn-secondary" href="{% url 'add_visits_doc' %}" role="button">Add Visit</a>
 </div>
 {% endblock %}

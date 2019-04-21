@@ -5,7 +5,7 @@ from django_filters.views import FilterView
 from django_tables2.views import SingleTableMixin
 from .tables import *
 from .filters import *
-
+from django.views.generic.list import ListView
 
 def index(request):
     return render(request, 'index.html', None)
@@ -21,6 +21,7 @@ class FilteredPatientListView(SingleTableMixin, FilterView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "Patient filter"
+        context['called_from'] = self.request.path.split('/')[1]
         return context
 
 
@@ -34,6 +35,7 @@ class FilteredDoctorListView(SingleTableMixin, FilterView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "Doctor filter"
+        context['called_from'] = self.request.path.split('/')[1]
         return context
 
 
@@ -47,6 +49,7 @@ class FilteredNurseListView(SingleTableMixin, FilterView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "Nurse filter"
+        context['called_from'] = self.request.path.split('/')[1]
         return context
 
 
@@ -60,19 +63,38 @@ class FilteredVisitListView(SingleTableMixin, FilterView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = "Visit filter"
+        context['called_from'] = self.request.path.split('/')[1]
+        return context
+
+
+class RoomsListView(SingleTableMixin, FilterView):
+    table_class = RoomTable
+    model = Room
+    template_name = 'table_template.html'
+
+    filterset_class = RoomFilter
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Rooms"
+        context['called_from'] = self.request.path.split('/')[1]
         return context
 
 
 def reception_page(request):
-    return render(request, 'doctor.html', None)
+    return render(request, 'reception.html', None)
 
 
 def nurse_page(request):
-    return render(request, 'doctor.html', None)
+    return render(request, 'nurse.html', None)
 
 
 def doctor_page(request):
     return render(request, 'doctor.html', None)
+
+
+def admin_page(request):
+    return render(request, 'admin.html', None)
 
 
 def get_departments(request):
@@ -159,7 +181,8 @@ def add_insurance(request):
     return render(request, 'add_form.html', {
         'form': form,
         'submit': '/add_insurance/',
-        'title': 'Insurance Company'
+        'title': 'Insurance Company',
+        'called_from': request.path.split('/')[1],
     })
 
 
@@ -175,7 +198,8 @@ def add_department(request):
     return render(request, 'add_form.html', {
         'form': form,
         'submit': '/add_department/',
-        'title': 'Department'
+        'title': 'Department',
+        'called_from': request.path.split('/')[1],
     })
 
 
@@ -192,7 +216,8 @@ def add_room_type(request):
     return render(request, 'add_form.html', {
         'form': form,
         'submit': '/add_room_type/',
-        'title': 'Room type'
+        'title': 'Room type',
+        'called_from': request.path.split('/')[1],
     })
 
 
@@ -208,7 +233,8 @@ def add_room(request):
     return render(request, 'add_form.html', {
         'form': form,
         'submit': '/add_room/',
-        'title': 'Room'
+        'title': 'Room',
+        'called_from': request.path.split('/')[1],
     })
 
 
@@ -231,7 +257,8 @@ def add_doctor(request):
         'userform': userform,
         'form': form,
         'submit': '/add_doctor/',
-        'title': 'Doctor'
+        'title': 'Doctor',
+        'called_from': request.path.split('/')[1],
         })
 
 
@@ -254,7 +281,8 @@ def add_nurse(request):
         'userform': userform,
         'form': form,
         'submit': '/add_nurse/',
-        'title': 'Nurse'
+        'title': 'Nurse',
+        'called_from': request.path.split('/')[1],
     })
 
 
@@ -276,7 +304,8 @@ def add_receptionist(request):
         'userform': userform,
         'form': form,
         'submit': '/add_receptionist/',
-        'title': 'Receptionist'
+        'title': 'Receptionist',
+        'called_from': request.path.split('/')[1],
     })
 
 
@@ -292,7 +321,8 @@ def add_patient(request):
     return render(request, 'add_form.html', {
         'form': form,
         'submit': '/add_patient/',
-        'title': 'Patient'
+        'title': 'Patient',
+        'called_from': request.path.split('/')[1],
         })
 
 
@@ -308,7 +338,8 @@ def add_drugs(request):
     return render(request, 'add_form.html', {
         'form': form,
         'submit': '/add_drugs/',
-        'title': 'Drug'
+        'title': 'Drug',
+        'called_from': request.path.split('/')[1],
     })
 
 
@@ -324,7 +355,8 @@ def add_treatments(request):
     return render(request, 'add_form.html', {
         'form': form,
         'submit': '/add_treatments/',
-        'title': 'Treatment'
+        'title': 'Treatment',
+        'called_from': request.path.split('/')[1],
     })
 
 
@@ -340,7 +372,8 @@ def add_diseases(request):
     return render(request, 'add_form.html', {
         'form': form,
         'submit': '/add_diseases/',
-        'title': 'Disease'
+        'title': 'Disease',
+        'called_from': request.path.split('/')[1],
     })
 
 
@@ -356,5 +389,6 @@ def add_visits(request):
     return render(request, 'add_form.html', {
         'form': form,
         'submit': '/add_visits/',
-        'title': 'Visit'
+        'title': 'Visit',
+        'called_from': request.path.split('/')[1],
     })
