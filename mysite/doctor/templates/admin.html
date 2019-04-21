@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+<!-- page details -->
+<div class="breadcrumb-agile py-1">
+    <ol class="breadcrumb m-0">
+        <li class="breadcrumb-item"><a href="/">Home</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Admin</li>
+    </ol>
+</div>
+<!-- //page details -->
+<div class="container py-5">
+    <a class="btn btn-secondary my-2" href="{% url 'add_department_admin' %}" role="button">Add Department</a>
+    <a class="btn btn-secondary my-2" href="{% url 'add_insurance_admin' %}" role="button">Add Insurance</a>
+    <a class="btn btn-secondary my-2" href="{% url 'add_room_type_admin' %}" role="button">Add Room Type</a>
+    <a class="btn btn-secondary my-2" href="{% url 'add_room_admin' %}" role="button">Add Room</a>
+    <a class="btn btn-secondary my-2" href="{% url 'add_doctor_admin' %}" role="button">Add Doctor</a>
+    <a class="btn btn-secondary my-2" href="{% url 'add_nurse_admin' %}" role="button">Add Nurse</a>
+    <a class="btn btn-secondary my-2" href="{% url 'add_receptionist_admin' %}" role="button">Add Receptionist</a>
+    <a class="btn btn-secondary my-2" href="{% url 'add_patient_admin' %}" role="button">Add Patient</a>
+    <a class="btn btn-secondary my-2" href="{% url 'add_drugs_admin' %}" role="button">Add Drugs</a>
+    <a class="btn btn-secondary my-2" href="{% url 'add_treatments_admin' %}" role="button">Add Treatments</a>
+    <a class="btn btn-secondary my-2" href="{% url 'add_visits_admin' %}" role="button">Add Visits</a>
+    <a class="btn btn-danger my-2" href="/admin" role="button">General Admin Menu</a>
+</div>
+{% endblock %}
