@@ -132,21 +132,16 @@ class VisitForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(VisitForm, self).__init__(*args, **kwargs)
         self.fields['patient'].widget.attrs.update({'class': 'form-control'})
-        self.fields['disease'].widget.attrs.update({
-            'class': 'form-control',
-            'style': 'min-height: 100px;'
-        })
+        self.fields['disease'].widget.attrs.update({'class': 'form-control'})
         self.fields['treatment'].widget.attrs.update({'class': 'form-control'})
-        self.fields['drugs'].widget.attrs.update({
-            'class': 'form-control',
-            'style': 'min-height: 100px;'
-        })
+        self.fields['drugs'].widget.attrs.update({'class': 'form-control'})
         self.fields['room'].widget.attrs.update({'class': 'form-control'})
         self.fields['doctor'].widget.attrs.update({'class': 'form-control'})
+        # Time widget -> 'type': 'datetime-local'
         self.fields['start_date'] = forms.DateTimeField(
-            widget=forms.widgets.DateTimeInput(attrs={'type': 'datetime-local'}))
+            widget=forms.widgets.DateTimeInput(attrs={'type': 'date'}))
         self.fields['end_date'] = forms.DateTimeField(
-            widget=forms.widgets.DateTimeInput(attrs={'type': 'datetime-local'}))
+            widget=forms.widgets.DateTimeInput(attrs={'type': 'date'}))
 
     class Meta:
         model = Visit
