@@ -1,10 +1,34 @@
 from django.shortcuts import render
 from .models import *
 from .forms import *
+from django_filters.views import FilterView
+from django_tables2.views import SingleTableMixin
+from .tables import *
+from .filters import *
 
 
 def index(request):
     return render(request, 'index.html', None)
+
+
+class FilteredPatientListView(SingleTableMixin, FilterView):
+    table_class = PatientTable
+    model = Patient
+    template_name = 'table_template.html'
+
+    filterset_class = PatientFilter
+
+
+def reception_page(request):
+    return render(request, 'doctor.html', None)
+
+
+def nurse_page(request):
+    return render(request, 'doctor.html', None)
+
+
+def doctor_page(request):
+    return render(request, 'doctor.html', None)
 
 
 def get_departments(request):

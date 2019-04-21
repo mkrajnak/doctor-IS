@@ -18,4 +18,8 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('login/', LoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
+    path('doctor/', views.doctor_page, name='doctor'),
+    path('reception/', views.reception_page, name='reception'),
+    path('nurse/', views.nurse_page, name='nurse'),
+    path('filter/', views.FilteredPatientListView.as_view(), name='filter')
 ]

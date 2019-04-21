@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_tables2',
+    'django_filters',
+    'bootstrapform',
     'doctor.apps.DoctorConfig',
     'django_extensions',
     'django.contrib.admin',
