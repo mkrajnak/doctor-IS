@@ -5,6 +5,7 @@ from .models import *
 
 
 admin.site.register(User)
+admin.site.register(Insurance)
 admin.site.register(Doctor)
 admin.site.register(Nurse)
 admin.site.register(Department)

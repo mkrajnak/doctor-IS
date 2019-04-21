@@ -1,14 +1,17 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.timezone import now
 
 
 class User(AbstractUser):
     is_doctor = models.BooleanField('doctor status', default=False)
     is_nurse = models.BooleanField('nurse status', default=False)
     is_receptionist = models.BooleanField('receptionist status', default=False)
-    is_patient = models.BooleanField('patient status', default=False)
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
 
 
 class Department(models.Model):
@@ -17,6 +20,17 @@ class Department(models.Model):
     """
     id = models.AutoField(primary_key=True)
     name = models.CharField("Department name", max_length=30)
+
+    def __str__(self):
+        return self.name
+
+
+class Insurance(models.Model):
+    """
+    Description: Model Description
+    """
+    id = models.AutoField(primary_key=True)
+    name = models.CharField("Insurance Company Name", max_length=30)
 
     def __str__(self):
         return self.name
@@ -42,7 +56,7 @@ class Room(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.id
+        return f'{self.id}, {self.department.name}'
 
 
 class Receptionist(models.Model):
@@ -79,11 +93,15 @@ class Patient(models.Model):
     """
     Description: Model Description
     """
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    insurance_num = models.CharField("Insurance number", max_length=30)
+    id = models.AutoField(primary_key=True)
+    first_name = models.CharField("Name", max_length=50)
+    last_name = models.CharField("Surname", max_length=50)
+    birth_date = models.DateTimeField()
+    birth_num = models.CharField("Birth number", max_length=10, unique=True)
+    insurance = models.ForeignKey(Insurance, on_delete=models.DO_NOTHING)
 
     def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f'{self.first_name} {self.last_name}'
 
 
 class Drugs(models.Model):
@@ -130,9 +148,9 @@ class Visit(models.Model):
     """
     id = models.AutoField(primary_key=True)
     treatment = models.ForeignKey(Treatments, on_delete=models.CASCADE)
-    disease = models.ManyToManyField(Diseases)
-    drugs = models.ManyToManyField(Drugs)
-    start_date = models.DateTimeField(auto_now_add=True)
+    disease = models.ForeignKey(Diseases, on_delete=models.DO_NOTHING)
+    drugs = models.ForeignKey(Drugs, on_delete=models.DO_NOTHING)
+    start_date = models.DateTimeField(default=now, blank=True)
     end_date = models.DateTimeField()
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.DO_NOTHING)

@@ -124,17 +124,21 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 						<nav>
 							<ul class="menu">
 								{% if request.user and request.user.is_receptionist %}
-								<li class="{% if request.resolver_match.url_name == 'reception' %}active{% endif %}" ><a href="/reception">Reception</a></li>
-								{% endif %}
-								{% if request.user and request.user.is_doctor %}
-								<li class="{% if request.resolver_match.url_name == 'doctor' %}active{% endif %}" class="mx-lg-4 mx-md-3 my-md-0 my-2"><a href="/doctor">Doctor</a></li>
+								<li class="mx-lg-4 mx-md-3 my-md-0 my-2" >
+									<a class="{% if request.resolver_match.url_name == 'reception' %}active{% endif %}" href="/reception">Reception</a></li>
 								{% endif %}
 								{% if request.user and request.user.is_nurse %}
-								<li class="{% if request.resolver_match.url_name == 'nurse' %}active{% endif %}" class="mx-lg-4 mx-md-3 my-md-0 my-2"><a href="/nurse">Nurse</a>
+								<li class="mx-lg-4 mx-md-3 my-md-0 my-2">
+									<a class="{% if request.resolver_match.url_name == 'nurse' %}active{% endif %}" href="/nurse">Nurse</a>
 								</li>
 								{% endif %}
+								{% if request.user and request.user.is_doctor %}
+								<li class="mx-lg-4 mx-md-3 my-md-0 my-2">
+									<a class="{% if request.resolver_match.url_name == 'doctor' %}active{% endif %}" href="/doctor">Doctor</a></li>
+								{% endif %}
 								{% if request.user and request.user.is_superuser %}
-								<li class="{% if request.resolver_match.url_name == 'admin' %}active{% endif %}" ><a href="/admin">Admin</a></li>
+								<li class="mx-lg-4 mx-md-3 my-md-0 my-2" >
+									<a class="{% if request.resolver_match.url_name == 'admin' %}active{% endif %}" href="/admin">Admin</a></li>
 								{% endif %}
 							</ul>
 						</nav>
