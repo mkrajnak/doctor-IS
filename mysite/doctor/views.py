@@ -221,6 +221,8 @@ def add_doctor(request):
             doctor = form.save(commit=False)
             doctor.user = User.objects.get(username=user.username)
             doctor.user.is_doctor = True
+            doctor.user.set_password(user.password)
+            doctor.user.save()
             doctor.save()
             return get_doctors(request)
     else:
@@ -244,7 +246,10 @@ def add_nurse(request):
             nurse = form.save(commit=False)
             nurse.user = User.objects.get(username=user.username)
             nurse.user.is_nurse = True
+            nurse.user.set_password(user.password)
+            nurse.user.save()
             nurse.save()
+
             return get_nurses(request)
     else:
         form = NurseForm()
@@ -264,9 +269,13 @@ def add_receptionist(request):
         userform = UserForm(request.POST)
         if form.is_valid() and userform.is_valid():
             user = userform.save()
-            receptioninst = form.save(commit=False)
-            receptioninst.user = User.objects.get(username=user.username)
-            receptioninst.save()
+            receptionist = form.save(commit=False)
+            receptionist.user = User.objects.get(username=user.username)
+            receptionist.user.is_receptionist = True
+            receptionist.user.set_password(user.password)
+            receptionist.user.save()
+            receptionist.save()
+
             return get_receptionists(request)
     else:
         form = ReceptionistForm()
