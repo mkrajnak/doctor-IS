@@ -1,6 +1,6 @@
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import *
 from .forms import *
 from django_filters.views import FilterView
@@ -142,76 +142,10 @@ def admin_page(request):
     return render(request, 'admin.html', None)
 
 
-def get_departments(request):
-    return render(request, 'doctors/index.html', {
-        'objects': Department.objects.all(),
-    })
-
-
-def get_insurance(request):
-    return render(request, 'doctors/index.html', {
-        'objects': Insurance.objects.all(),
-    })
-
-
-def get_room_types(request):
-    return render(request, 'doctors/index.html', {
-        'objects': RoomTypes.objects.all(),
-    })
-
-
-def get_rooms(request):
-    return render(request, 'doctors/index.html', {
-        'objects': Room.objects.all(),
-    })
-
-
-def get_doctors(request):
-    return render(request, 'doctors/index.html', {
-        'objects': Doctor.objects.all(),
-    })
-
-
-def get_nurses(request):
-    return render(request, 'doctors/index.html', {
-        'objects': Nurse.objects.all(),
-    })
-
-
-def get_receptionists(request):
-    return render(request, 'doctors/index.html', {
-        'objects': Receptionist.objects.all(),
-    })
-
-
-def get_patients(request):
-    return render(request, 'doctors/index.html', {
-        'objects': Patient.objects.all(),
-    })
-
-
-def get_drugs(request):
-    return render(request, 'doctors/index.html', {
-        'objects': Drugs.objects.all(),
-    })
-
-
-def get_treatments(request):
-    return render(request, 'doctors/index.html', {
-        'objects': Treatments.objects.all(),
-    })
-
-
-def get_diseases(request):
-    return render(request, 'doctors/index.html', {
-        'objects': Diseases.objects.all(),
-    })
-
-
-def get_visits(request):
-    return render(request, 'doctors/index.html', {
-        'objects': Visit.objects.all(),
-    })
+@login_required
+@admin_required
+def go_back(request):
+    return redirect(request.path.split('/')[1])
 
 
 @login_required
@@ -221,13 +155,13 @@ def add_insurance(request):
         form = InsuranceForm(request.POST)
         if form.is_valid():
             form.save()
-            return get_insurance(request)
+            return go_back(request)
     else:
         form = InsuranceForm()
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/add_insurance/',
+        'submit': '/' + request.path.split('/')[1] + '/add_insurance/',
         'title': 'Insurance Company',
         'called_from': request.path.split('/')[1],
     })
@@ -240,13 +174,13 @@ def add_department(request):
         form = DepartmentForm(request.POST)
         if form.is_valid():
             form.save()
-            return get_departments(request)
+            return go_back(request)
     else:
         form = DepartmentForm()
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/add_department/',
+        'submit': '/' + request.path.split('/')[1] + '/add_department/',
         'title': 'Department',
         'called_from': request.path.split('/')[1],
     })
@@ -259,14 +193,14 @@ def add_room_type(request):
         form = RoomTypeForm(request.POST)
         if form.is_valid():
             form.save()
-            return get_room_types(request)
+            return go_back(request)
 
     else:
         form = RoomTypeForm()
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/add_room_type/',
+        'submit': '/' + request.path.split('/')[1] + '/add_room_type/',
         'title': 'Room type',
         'called_from': request.path.split('/')[1],
     })
@@ -279,13 +213,13 @@ def add_room(request):
         form = RoomForm(request.POST)
         if form.is_valid():
             form.save()
-            return get_rooms(request)
+            return go_back(request)
     else:
         form = RoomForm()
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/add_room/',
+        'submit': '/' + request.path.split('/')[1] + '/add_room/',
         'title': 'Room',
         'called_from': request.path.split('/')[1],
     })
@@ -305,7 +239,7 @@ def add_doctor(request):
             doctor.user.set_password(user.password)
             doctor.user.save()
             doctor.save()
-            return get_doctors(request)
+            return go_back(request)
     else:
         form = DoctorForm()
         userform = UserForm()
@@ -313,7 +247,7 @@ def add_doctor(request):
     return render(request, 'add_form.html', {
         'userform': userform,
         'form': form,
-        'submit': '/add_doctor/',
+        'submit': '/' + request.path.split('/')[1] + '/add_doctor/',
         'title': 'Doctor',
         'called_from': request.path.split('/')[1],
     })
@@ -334,7 +268,7 @@ def add_nurse(request):
             nurse.user.save()
             nurse.save()
 
-            return get_nurses(request)
+            return go_back(request)
     else:
         form = NurseForm()
         userform = UserForm()
@@ -342,7 +276,7 @@ def add_nurse(request):
     return render(request, 'add_form.html', {
         'userform': userform,
         'form': form,
-        'submit': '/add_nurse/',
+        'submit': '/' + request.path.split('/')[1] + '/add_nurse/',
         'title': 'Nurse',
         'called_from': request.path.split('/')[1],
     })
@@ -363,7 +297,7 @@ def add_receptionist(request):
             receptionist.user.save()
             receptionist.save()
 
-            return get_receptionists(request)
+            return go_back(request)
     else:
         form = ReceptionistForm()
         userform = UserForm()
@@ -371,7 +305,7 @@ def add_receptionist(request):
     return render(request, 'add_form.html', {
         'userform': userform,
         'form': form,
-        'submit': '/add_receptionist/',
+        'submit': '/' + request.path.split('/')[1] + '/add_receptionist/',
         'title': 'Receptionist',
         'called_from': request.path.split('/')[1],
     })
@@ -384,13 +318,13 @@ def add_patient(request):
         form = PatientForm(request.POST)
         if form.is_valid():
             form.save()
-            return get_patients(request)
+            return go_back(request)
     else:
         form = PatientForm()
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/add_patient/',
+        'submit': '/' + request.path.split('/')[1] + '/add_patient/',
         'title': 'Patient',
         'called_from': request.path.split('/')[1],
     })
@@ -403,13 +337,13 @@ def add_drugs(request):
         form = DrugsForm(request.POST)
         if form.is_valid():
             form.save()
-            return get_drugs(request)
+            return go_back(request)
     else:
         form = DrugsForm()
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/add_drugs/',
+        'submit': '/' + request.path.split('/')[1] + '/add_drugs/',
         'title': 'Drug',
         'called_from': request.path.split('/')[1],
     })
@@ -422,13 +356,13 @@ def add_treatments(request):
         form = TreatmentsForm(request.POST)
         if form.is_valid():
             form.save()
-            return get_treatments(request)
+            return go_back(request)
     else:
         form = TreatmentsForm()
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/add_treatments/',
+        'submit': '/' + request.path.split('/')[1] + '/add_treatments/',
         'title': 'Treatment',
         'called_from': request.path.split('/')[1],
     })
@@ -441,13 +375,13 @@ def add_diseases(request):
         form = DiseasesForm(request.POST)
         if form.is_valid():
             form.save()
-            return get_diseases(request)
+            return go_back(request)
     else:
         form = DiseasesForm()
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/add_diseases/',
+        'submit': '/' + request.path.split('/')[1] + '/add_diseases/',
         'title': 'Disease',
         'called_from': request.path.split('/')[1],
     })
@@ -460,13 +394,13 @@ def add_visits(request):
         form = VisitForm(request.POST)
         if form.is_valid():
             form.save()
-            return get_visits(request)
+            return go_back(request)
     else:
         form = VisitForm()
 
     return render(request, 'add_form.html', {
         'form': form,
-        'submit': '/add_visits/',
+        'submit': '/' + request.path.split('/')[1] + '/add_visits/',
         'title': 'Visit',
         'called_from': request.path.split('/')[1],
     })
