@@ -18,6 +18,50 @@ class FilteredPatientListView(SingleTableMixin, FilterView):
 
     filterset_class = PatientFilter
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Patient filter"
+        return context
+
+
+class FilteredDoctorListView(SingleTableMixin, FilterView):
+    table_class = DoctorTable
+    model = Doctor
+    template_name = 'table_template.html'
+
+    filterset_class = DoctorFilter
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Doctor filter"
+        return context
+
+
+class FilteredNurseListView(SingleTableMixin, FilterView):
+    table_class = NurseTable
+    model = Nurse
+    template_name = 'table_template.html'
+
+    filterset_class = NurseFilter
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Nurse filter"
+        return context
+
+
+class FilteredVisitListView(SingleTableMixin, FilterView):
+    table_class = VisitTable
+    model = Visit
+    template_name = 'table_template.html'
+
+    filterset_class = VisitFilter
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = "Visit filter"
+        return context
+
 
 def reception_page(request):
     return render(request, 'doctor.html', None)
@@ -116,7 +160,7 @@ def add_insurance(request):
         'form': form,
         'submit': '/add_insurance/',
         'title': 'Insurance Company'
-        })
+    })
 
 
 def add_department(request):
@@ -132,7 +176,7 @@ def add_department(request):
         'form': form,
         'submit': '/add_department/',
         'title': 'Department'
-        })
+    })
 
 
 def add_room_type(request):
@@ -149,7 +193,7 @@ def add_room_type(request):
         'form': form,
         'submit': '/add_room_type/',
         'title': 'Room type'
-        })
+    })
 
 
 def add_room(request):
@@ -165,7 +209,7 @@ def add_room(request):
         'form': form,
         'submit': '/add_room/',
         'title': 'Room'
-        })
+    })
 
 
 def add_doctor(request):
@@ -211,7 +255,7 @@ def add_nurse(request):
         'form': form,
         'submit': '/add_nurse/',
         'title': 'Nurse'
-        })
+    })
 
 
 def add_receptionist(request):
@@ -233,7 +277,7 @@ def add_receptionist(request):
         'form': form,
         'submit': '/add_receptionist/',
         'title': 'Receptionist'
-        })
+    })
 
 
 def add_patient(request):
@@ -265,7 +309,7 @@ def add_drugs(request):
         'form': form,
         'submit': '/add_drugs/',
         'title': 'Drug'
-        })
+    })
 
 
 def add_treatments(request):
@@ -281,7 +325,7 @@ def add_treatments(request):
         'form': form,
         'submit': '/add_treatments/',
         'title': 'Treatment'
-        })
+    })
 
 
 def add_diseases(request):
@@ -297,7 +341,7 @@ def add_diseases(request):
         'form': form,
         'submit': '/add_diseases/',
         'title': 'Disease'
-        })
+    })
 
 
 def add_visits(request):
@@ -313,4 +357,4 @@ def add_visits(request):
         'form': form,
         'submit': '/add_visits/',
         'title': 'Visit'
-        })
+    })

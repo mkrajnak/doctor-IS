@@ -23,5 +23,8 @@ urlpatterns = [
     path('doctor/', views.doctor_page, name='doctor'),
     path('reception/', views.reception_page, name='reception'),
     path('nurse/', views.nurse_page, name='nurse'),
-    path('filter/', views.FilteredPatientListView.as_view(), name='filter')
+    path('patient_filter/', views.FilteredPatientListView.as_view(), name='patient_filter'),
+    path('doctor_filter/', views.FilteredDoctorListView.as_view(), name='doctor_filter'),
+    path('nurse_filter/', views.FilteredNurseListView.as_view(), name='nurse_filter'),
+    path('visit_filter/', views.FilteredVisitListView.as_view(), name='visit_filter'),
 ]

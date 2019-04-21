@@ -10,6 +10,9 @@ class User(AbstractUser):
     first_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
 
 class Department(models.Model):
     """
@@ -53,7 +56,7 @@ class Room(models.Model):
     department = models.ForeignKey(Department, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.id
+        return f'{self.id}, {self.department.name}'
 
 
 class Receptionist(models.Model):
@@ -145,8 +148,8 @@ class Visit(models.Model):
     """
     id = models.AutoField(primary_key=True)
     treatment = models.ForeignKey(Treatments, on_delete=models.CASCADE)
-    disease = models.ManyToManyField(Diseases)
-    drugs = models.ManyToManyField(Drugs)
+    disease = models.ForeignKey(Diseases, on_delete=models.DO_NOTHING)
+    drugs = models.ForeignKey(Drugs, on_delete=models.DO_NOTHING)
     start_date = models.DateTimeField(default=now, blank=True)
     end_date = models.DateTimeField()
     room = models.ForeignKey(Room, on_delete=models.CASCADE)

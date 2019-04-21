@@ -7,5 +7,44 @@ class PatientFilter(django_filters.FilterSet):
     class Meta:
         model = Patient
         fields = {
-            'insurance_num': ['icontains'],
+            'first_name': ['icontains'],
+            'last_name': ['icontains'],
+            'birth_date': ['icontains'],
+            'birth_num': ['icontains'],
+        }
+
+
+class DoctorFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = Doctor
+        fields = {
+            'user__first_name': ['icontains'],
+            'user__last_name': ['icontains'],
+            'room__id': ['icontains'],
+            'room__department__name': ['icontains'],
+        }
+
+
+class NurseFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = Nurse
+        fields = {
+            'user__first_name': ['icontains'],
+            'user__last_name': ['icontains'],
+            'room__id': ['icontains'],
+            'room__department__name': ['icontains'],
+        }
+
+
+class VisitFilter(django_filters.FilterSet):
+
+    class Meta:
+        model = Visit
+        fields = {
+            'patient__first_name': ['icontains'],
+            'patient__last_name': ['icontains'],
+            'room__id': ['icontains'],
+            'room__department__name': ['icontains'],
         }
