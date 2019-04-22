@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
@@ -78,8 +79,8 @@ class FilteredVisitListView(SingleTableMixin, FilterView):
 
         if not (self.request.user.is_anonymous or self.request.user.is_superuser):
             if self.request.user.is_doctor:
-                # show only patients from doctor's department
-                queryset = queryset.filter(room__department=self.request.user.doctor.room.department)
+                # show doctor's patients + patients on doctor's department
+                queryset = queryset.filter(Q(doctor=self.request.user.doctor) | Q(room__department=self.request.user.doctor.room.department))
             elif self.request.user.is_nurse:
                 # show only patients from nurse's department
                 queryset = queryset.filter(room__department=self.request.user.nurse.room.department)
@@ -142,7 +143,6 @@ def admin_page(request):
 
 
 @login_required
-@admin_required
 def go_back(request):
     return redirect(request.path.split('/')[1])
 
@@ -396,7 +396,7 @@ def add_visits(request):
             return go_back(request)
     else:
         form = VisitForm()
-    
+
     return render(request, 'add_form.html', {
         'form': form,
         'submit': '/' + request.path.split('/')[1] + '/add_visits/',
