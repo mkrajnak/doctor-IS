@@ -5,3 +5,4 @@ WORKDIR /mysite
 ADD requirements.txt /mysite/
 RUN pip install -r requirements.txt
 COPY ./mysite /mysite/
+COPY settings-docker.py /mysite/mysite/settings.py
