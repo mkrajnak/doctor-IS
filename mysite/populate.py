@@ -187,7 +187,7 @@ def populate_rooms():
 def populate_drugs():
     import random
     for drug in DRUGS:
-        dolla = random.uniform(10.5,100.5)
+        dolla = random.uniform(10.5, 100.5)
         Drugs.objects.create(
             name=drug[0],
             description=drug[1],

@@ -1,4 +1,3 @@
-from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
@@ -79,8 +78,8 @@ class FilteredVisitListView(SingleTableMixin, FilterView):
 
         if not (self.request.user.is_anonymous or self.request.user.is_superuser):
             if self.request.user.is_doctor:
-                # show doctor's patients + patients on doctor's department
-                queryset = queryset.filter(Q(doctor=self.request.user.doctor) | Q(room__department=self.request.user.doctor.room.department))
+                # show only patients from doctor's department
+                queryset = queryset.filter(room__department=self.request.user.doctor.room.department)
             elif self.request.user.is_nurse:
                 # show only patients from nurse's department
                 queryset = queryset.filter(room__department=self.request.user.nurse.room.department)
@@ -143,6 +142,7 @@ def admin_page(request):
 
 
 @login_required
+@admin_required
 def go_back(request):
     return redirect(request.path.split('/')[1])
 
@@ -386,6 +386,27 @@ def add_diseases(request):
     })
 
 
+def get_room(request):
+    try:
+        if request.user.is_doctor:
+            return Doctor.objects.get(user=request.user).room
+        else:
+            return Nurse.objects.get(user=request.user).room
+    except Exception:
+        return ''
+
+
+def get_doctor(request):
+    try:
+        if request.user.is_doctor:
+            return Doctor.objects.get(user=request.user)
+        else:
+            room = Nurse.objects.get(user=request.user).room
+            return Doctor.objects.get(room=room)
+    except Exception:
+        return ''
+
+
 @login_required
 @nurse_required
 def add_visits(request):
@@ -395,7 +416,11 @@ def add_visits(request):
             form.save()
             return go_back(request)
     else:
-        form = VisitForm()
+        form = VisitForm(initial={
+        } if request.user.is_superuser else {
+            'room': get_room(request),
+            'doctor': get_doctor(request),
+        })
 
     return render(request, 'add_form.html', {
         'form': form,

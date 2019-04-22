@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
-from django.utils.timezone import now
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -150,8 +150,8 @@ class Visit(models.Model):
     treatment = models.ForeignKey(Treatments, on_delete=models.CASCADE)
     disease = models.ForeignKey(Diseases, on_delete=models.DO_NOTHING)
     drugs = models.ForeignKey(Drugs, on_delete=models.DO_NOTHING)
-    start_date = models.DateTimeField(default=now, blank=True)
-    end_date = models.DateTimeField()
+    start_date = models.DateTimeField(default=timezone.now, blank=True)
+    end_date = models.DateTimeField(default=timezone.now)
     room = models.ForeignKey(Room, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.DO_NOTHING)
     doctor = models.ForeignKey(Doctor, on_delete=models.DO_NOTHING)
