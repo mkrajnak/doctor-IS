@@ -1,0 +1,76 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Projekt PIS</title>
+    <style type="text/css">
+    	table { border-collapse: collapse; }
+    	td, th { border: 1px solid black; padding: 0.3em 0.5em; text-align: left; }
+    	dt { font-weight: bold; margin-top: 0.5em; }
+    </style>
+</head>
+<body>
+
+<!-- Zkontrolujte prosím nastavení kódování v hlavičce dokumentu 
+     podle použitého editoru -->
+
+<!-- Nahraďte prosím názvem tématu -->
+<h1>29: Nemocnice</h1>
+
+<!-- Editujte jména a maily autorů a jejich činnost -->
+<dl>
+	<dt>Autoři</dt>
+	<dd>Martin Krajňák 
+	    <a href="mailto:xkrajn02@stud.fit.vutbr.cz">xkrajn02@stud.fit.vutbr.cz</a> -
+		databázový subsystém, vytvorenie testovacích dát, formuláre pre pridávanie dát, správa užívateľov
+	</dd>
+	<dd>Patrik Segedy
+	    <a href="mailto:xseged00@stud.fit.vutbr.cz">xseged00@stud.fit.vutbr.cz</a> - 
+		databázový subsystém, užívateľké rozhranie, prihlasovanie užívateľov, zobrazovanie dát v tabuľkách a filtrovanie
+	</dd>
+</dl>
+
+<!-- uživatelské účty -->
+<h2>Uživatelé systému pro testování</h2>
+<p>Uveďte prosím existující zástupce <strong>všech rolí uživatelů</strong>.</p>
+<table>
+<tr><th>Login</th><th>Heslo</th><th>Role</th></tr>
+<tr><td>admin</td><td>admin</td><td>Administrátor</td></tr>
+<tr><td>tdudlak</td><td>2451</td><td>Doktor</td></tr>
+<tr><td>jdoe</td><td>2451</td><td>Sestra</td></tr>
+<tr><td>jsmith</td><td>2451</td><td>Recepčná</td></tr>
+</table>
+* užívatelia sú automaticky odhlásení po 1209600s (2 týždne), je to možné upraviť nastavením <kbd>SESSION_COOKIE_AGE</kbd> v <kbd>mysite/mysite/settings.py</kbd>
+
+<h2>Postup instalace</h2>
+<p>Např. vyžadované prostředky na serveru, datové zdroje, inicializace databáze, apod. Stačí v několika stručných bodech.</p>
+<h3>Inštalácia pomocou docker-compose</h3>
+<b><kbd>docker-compose up</kbd></b> spustí PostgreSQL databázu, aplikuje DB schému a migrácie, naplní DB dátami a spustí Django server na localhost:8000
+<h3>Manuálna inštalácia</h3>
+<ol>
+    <li>Spustenie PostgreSQL DB na porte 5432, napríklad pomocou <b><kbd>docker pull postgres && docker run --name postgres --publish 127.0.0.1:5432:5432 -d postgres</kbd></b></li>
+    <li>Nainštalocanie dependencií
+        <ul>
+            <li><b><kbd>python3 -m venv .venv</kbd></b></li>
+            <li><b><kbd>source .venv/bin/activate</kbd></b></li>
+            <li><b><kbd>pip install -r requirements.txt</kbd></b></li>
+        </ul>
+    </li>
+    <li><b><kbd>cd mysite</kbd></b></li>
+    <li>Aplikovanie migrácii a vytvorenie DB schémy <b><kbd>python manage.py migrate</kbd></b></li>
+    <li>Naplnenie DB <b><kbd>python populate.py</kbd></b></li>
+    <li>Spustenie serveru na localhost:8000 <b><kbd>python manage.py runserver localhost:8000</kbd></b></li>
+</ol>
+
+<!-- vyžadované knihovny třetích stran i s verzemi, které byly použity pro testování -->
+<h2>Vyžadované knihovny</h2>
+Django=2.0.2
+psycopg2-binary
+django-extensions
+django-tables2
+django-filter
+django-bootstrap-form
+
+</body>
+</html>
