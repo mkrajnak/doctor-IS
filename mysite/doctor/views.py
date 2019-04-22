@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
@@ -78,8 +79,8 @@ class FilteredVisitListView(SingleTableMixin, FilterView):
 
         if not (self.request.user.is_anonymous or self.request.user.is_superuser):
             if self.request.user.is_doctor:
-                # show only patients from doctor's department
-                queryset = queryset.filter(room__department=self.request.user.doctor.room.department)
+                # show doctor's patients + patients on doctor's department
+                queryset = queryset.filter(Q(doctor=self.request.user.doctor) | Q(room__department=self.request.user.doctor.room.department))
             elif self.request.user.is_nurse:
                 # show only patients from nurse's department
                 queryset = queryset.filter(room__department=self.request.user.nurse.room.department)
@@ -117,37 +118,36 @@ class RoomsListView(SingleTableMixin, FilterView):
         return context
 
 
-@login_required
+@login_required(login_url='login')
 @receptionist_required
 def reception_page(request):
     return render(request, 'reception.html', None)
 
 
-@login_required
+@login_required(login_url='login')
 @nurse_required
 def nurse_page(request):
     return render(request, 'nurse.html', None)
 
 
-@login_required
+@login_required(login_url='login')
 @doctor_required
 def doctor_page(request):
     return render(request, 'doctor.html', None)
 
 
-@login_required
+@login_required(login_url='login')
 @admin_required
 def admin_page(request):
     return render(request, 'admin.html', None)
 
 
-@login_required
-@admin_required
+@login_required(login_url='login')
 def go_back(request):
     return redirect(request.path.split('/')[1])
 
 
-@login_required
+@login_required(login_url='login')
 @admin_required
 def add_insurance(request):
     if request.method == 'POST':
@@ -166,7 +166,7 @@ def add_insurance(request):
     })
 
 
-@login_required
+@login_required(login_url='login')
 @admin_required
 def add_department(request):
     if request.method == 'POST':
@@ -185,7 +185,7 @@ def add_department(request):
     })
 
 
-@login_required
+@login_required(login_url='login')
 @admin_required
 def add_room_type(request):
     if request.method == 'POST':
@@ -205,7 +205,7 @@ def add_room_type(request):
     })
 
 
-@login_required
+@login_required(login_url='login')
 @admin_required
 def add_room(request):
     if request.method == 'POST':
@@ -224,7 +224,7 @@ def add_room(request):
     })
 
 
-@login_required
+@login_required(login_url='login')
 @admin_required
 def add_doctor(request):
     if request.method == 'POST':
@@ -252,7 +252,7 @@ def add_doctor(request):
     })
 
 
-@login_required
+@login_required(login_url='login')
 @admin_required
 def add_nurse(request):
     if request.method == 'POST':
@@ -281,7 +281,7 @@ def add_nurse(request):
     })
 
 
-@login_required
+@login_required(login_url='login')
 @admin_required
 def add_receptionist(request):
     if request.method == 'POST':
@@ -310,7 +310,7 @@ def add_receptionist(request):
     })
 
 
-@login_required
+@login_required(login_url='login')
 @nurse_required
 def add_patient(request):
     if request.method == 'POST':
@@ -329,7 +329,7 @@ def add_patient(request):
     })
 
 
-@login_required
+@login_required(login_url='login')
 @doctor_required
 def add_drugs(request):
     if request.method == 'POST':
@@ -348,7 +348,7 @@ def add_drugs(request):
     })
 
 
-@login_required
+@login_required(login_url='login')
 @doctor_required
 def add_treatments(request):
     if request.method == 'POST':
@@ -367,7 +367,7 @@ def add_treatments(request):
     })
 
 
-@login_required
+@login_required(login_url='login')
 @doctor_required
 def add_diseases(request):
     if request.method == 'POST':
@@ -386,28 +386,7 @@ def add_diseases(request):
     })
 
 
-def get_room(request):
-    try:
-        if request.user.is_doctor:
-            return Doctor.objects.get(user=request.user).room
-        else:
-            return Nurse.objects.get(user=request.user).room
-    except Exception:
-        return ''
-
-
-def get_doctor(request):
-    try:
-        if request.user.is_doctor:
-            return Doctor.objects.get(user=request.user)
-        else:
-            room = Nurse.objects.get(user=request.user).room
-            return Doctor.objects.get(room=room)
-    except Exception:
-        return ''
-
-
-@login_required
+@login_required(login_url='login')
 @nurse_required
 def add_visits(request):
     if request.method == 'POST':
@@ -416,11 +395,7 @@ def add_visits(request):
             form.save()
             return go_back(request)
     else:
-        form = VisitForm(initial={
-        } if request.user.is_superuser else {
-            'room': get_room(request),
-            'doctor': get_doctor(request),
-        })
+        form = VisitForm()
 
     return render(request, 'add_form.html', {
         'form': form,
