@@ -49,6 +49,14 @@ DRUGS = [
 ]
 TREATMENTS = [
     [
+        'Checkup',
+        'Medical checkup'
+    ],
+    [
+        'Blood transfer',
+        'Give up your blood.'
+    ],
+    [
         'Transesophageal echocardiography',
         'In simple terms, this procedure takes pictures of your heart using ultrasound via a tube inserted into your oesophagus. A doctor might use this instead of doing an electrocardiogram, but research suggests any extra detail it might produce isn\'t worth the risks of being sedated.'
     ],
@@ -269,15 +277,37 @@ def populate_staff():
     add_doctor('kgruberova', 'Katarina', 'Gruberova', '2451', 'Kikgr@dmail.de', 'Room 76')
     add_doctor('petersm', 'Samuel', 'Peter', '2451', 'speter@mahalo.hu', 'Room 29')
 
-
     add_nurse('jdoe', 'Jane', 'Dudlak', '2451', 'jane@mendelu.hu', 'Room 1')
     add_nurse('annkr', 'Anna', 'Kratomila', '2451', 'Ann@dmail.de', 'Room 76')
     add_nurse('efiala', 'Ester', 'Fialkova', '2451', 'esther@dmail.de', 'Room 29')
 
-
     add_receptionist('jsmith', 'Jenny', 'Smith', '2451', 'jenny@mendelu.hu')
     add_receptionist('dla', 'Dimitri', 'Laszskow', '2451', 'dimml@mahalo.hu')
     add_receptionist('reception', 'Tamara', 'Suchankova', '2451', 'tamarSuch@dmail.de')
+
+
+def populate_visits():
+    Visit.objects.create(
+        treatment=Treatments.objects.get(name='Computed tomography pulmonary angiography'),
+        disease=Diseases.objects.get(name='Acne'),
+        drugs=Drugs.objects.get(name='Marijuana'),
+        start_date="2019-01-01T13:20:30+01:00",
+        end_date="2019-02-01T13:20:30+01:00",
+        room=Room.objects.get(id='Room 1'),
+        patient=Patient.objects.get(birth_num=1234567890),
+        doctor=Doctor.objects.get(user_id=User.objects.get(username='tdudlak').id)
+    )
+    Visit.objects.create(
+        treatment=Treatments.objects.get(name='Checkup'),
+        disease=Diseases.objects.get(name='Acne'),
+        drugs=Drugs.objects.get(name='Cocaine'),
+        start_date="2019-02-01T13:20:30+01:00",
+        end_date="2019-02-01T13:20:30+01:00",
+        room=Room.objects.get(id='Room 1'),
+        patient=Patient.objects.get(birth_num=1234567891),
+        doctor=Doctor.objects.get(user_id=User.objects.get(username='tdudlak').id)
+    )
+
 
 
 if __name__ == '__main__':
@@ -297,5 +327,6 @@ if __name__ == '__main__':
     populate_diseases()
     populate_patients()
     populate_staff()
+    populate_visits()
 
     print_all()
