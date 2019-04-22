@@ -8,6 +8,7 @@ PIS FIT BUT Project
 
 If you need to delete data from DB:
 `docker-compose down -v`
+To rebuild images use `docker-compose build` or `docker-compose up --build`
 
 ## Manual
 1. Assure you have database up and running
