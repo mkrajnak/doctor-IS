@@ -77,13 +77,12 @@ class FilteredVisitListView(SingleTableMixin, FilterView):
         queryset = super().get_queryset(**kwargs)
 
         if not (self.request.user.is_anonymous or self.request.user.is_superuser):
-            if self.request.user.is_nurse:
-                # show only patients from nurse's department
-                queryset = queryset.filter(room__department=self.request.user.nurse.room.department)
-
             if self.request.user.is_doctor:
                 # show only patients from doctor's department
                 queryset = queryset.filter(room__department=self.request.user.doctor.room.department)
+            elif self.request.user.is_nurse:
+                # show only patients from nurse's department
+                queryset = queryset.filter(room__department=self.request.user.nurse.room.department)
 
         return queryset
 
