@@ -19,7 +19,7 @@ class Department(models.Model):
     Description: Model Description
     """
     id = models.AutoField(primary_key=True)
-    name = models.CharField("Department name", max_length=30)
+    name = models.CharField("Department name", max_length=50)
 
     def __str__(self):
         return self.name
@@ -30,7 +30,7 @@ class Insurance(models.Model):
     Description: Model Description
     """
     id = models.AutoField(primary_key=True)
-    name = models.CharField("Insurance Company Name", max_length=30)
+    name = models.CharField("Insurance Company Name", max_length=50)
 
     def __str__(self):
         return self.name
@@ -40,7 +40,7 @@ class RoomTypes(models.Model):
     """
     Description: Model Description
     """
-    id = models.CharField("Room type", max_length=10, primary_key=True)
+    id = models.CharField("Room type", max_length=50, primary_key=True)
 
     def __str__(self):
         return self.id
@@ -109,13 +109,13 @@ class Drugs(models.Model):
     Description: Model Description
     """
     id = models.AutoField(primary_key=True)
-    name = models.CharField("Drug name", max_length=30)
+    name = models.CharField("Drug name", max_length=50)
     description = models.CharField("Drug description", max_length=300)
     price = models.DecimalField(verbose_name="Drug's price", max_digits=10, decimal_places=2)
     pbi = models.DecimalField(verbose_name="Amount paid by insurance", max_digits=10, decimal_places=2)
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.name} {self.description}'
 
 
 class Treatments(models.Model):
@@ -123,8 +123,8 @@ class Treatments(models.Model):
     Description: Model Description
     """
     id = models.AutoField(primary_key=True)
-    name = models.CharField("Treatment name", max_length=30)
-    description = models.CharField("Treatment description", max_length=300)
+    name = models.CharField("Treatment name", max_length=150)
+    description = models.CharField("Treatment description", max_length=600)
 
     def __str__(self):
         return f'{self.name}'
@@ -135,7 +135,7 @@ class Diseases(models.Model):
     Description: Model Description
     """
     id = models.AutoField(primary_key=True)
-    name = models.CharField("Disease name", max_length=30)
+    name = models.CharField("Disease name", max_length=50)
     description = models.CharField("Disease description", max_length=300)
 
     def __str__(self):
