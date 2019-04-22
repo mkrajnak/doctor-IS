@@ -42,6 +42,11 @@
 <tr><td>jsmith</td><td>2451</td><td>Recepčná</td></tr>
 </table>
 * užívatelia sú automaticky odhlásení po 1209600s (2 týždne), je to možné upraviť nastavením <kbd>SESSION_COOKIE_AGE</kbd> v <kbd>mysite/mysite/settings.py</kbd>
+<ul>
+	<li><b>Recepčná</b> vidí návštevy všetkých pacientov, ale nevidí detaily o pacientoch, vidí iba miestosť, dátum a meno pacienta.</li>
+	<li><b>Sestra</b> vidí návštevy pacientov v rámci oddelenia na ktorom pracuje vrátane detailov o pacientoch.</li>
+	<li><b>Lekár</b> vidí návštevy pacientov v rámci oddelenia a pacientov, ktorých vyšetril aj na inom oddelení, vrátane detailov o pacientoch.</li>
+</ul>
 
 <h2>Postup instalace</h2>
 <p>Např. vyžadované prostředky na serveru, datové zdroje, inicializace databáze, apod. Stačí v několika stručných bodech.</p>
