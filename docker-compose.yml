@@ -6,10 +6,10 @@ services:
     volumes:
       - doctor-is-db:/var/lib/pgsql/data
   web:
-    build: .
-    command: python manage.py runserver 0.0.0.0:8000
+    image: app
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python manage.py migrate && python populate.py && python manage.py runserver 0.0.0.0:8000'
     volumes:
-      - .:/mysiste
+      - .:/code
     ports:
       - "8000:8000"
     depends_on:
