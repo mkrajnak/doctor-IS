@@ -229,7 +229,7 @@ def populate_patients():
         'Adam', 'Lata', "2009-09-01T13:20:30+01:00", str(i), 'Axa')
 
 
-def add_user(username, name, surname, passwd, mail):
+def add_user(username, name, surname, passwd, mail, doctor, nurse, reception):
     # UserModel = get_user_model()
     return User.objects.create_user(
         username=username,
@@ -237,16 +237,47 @@ def add_user(username, name, surname, passwd, mail):
         last_name=surname,
         password=passwd,
         email=mail,
+        is_doctor=doctor,
+        is_nurse=nurse,
+        is_receptionist=reception
     )
 
 
 def add_doctor(username, name, surname, passwd, mail, room):
-    user = add_user(username, name, surname, passwd, mail)
-    user.is_doctor = True
+    user = add_user(username, name, surname, passwd, mail, True, True, True)
     Doctor.objects.create(
         user=user,
         room=Room.objects.get(id=room)
     )
+
+
+def add_nurse(username, name, surname, passwd, mail, room):
+    user = add_user(username, name, surname, passwd, mail, False, True, True)
+    Nurse.objects.create(
+        user=user,
+        room=Room.objects.get(id=room)
+    )
+
+
+def add_receptionist(username, name, surname, passwd, mail):
+    user = add_user(username, name, surname, passwd, mail, False, False, True)
+    Receptionist.objects.create(user=user)
+
+
+def populate_staff():
+    add_doctor('tdudlak', 'Tibor', 'Dudlak', '2451', 'tibi@mendelu.hu', 'Room 1')
+    add_doctor('kgruberova', 'Katarina', 'Gruberova', '2451', 'Kikgr@dmail.de', 'Room 76')
+    add_doctor('petersm', 'Samuel', 'Peter', '2451', 'speter@mahalo.hu', 'Room 29')
+
+
+    add_nurse('jdoe', 'Jane', 'Dudlak', '2451', 'jane@mendelu.hu', 'Room 1')
+    add_nurse('annkr', 'Anna', 'Kratomila', '2451', 'Ann@dmail.de', 'Room 76')
+    add_nurse('efiala', 'Ester', 'Fialkova', '2451', 'esther@dmail.de', 'Room 29')
+
+
+    add_receptionist('jsmith', 'Jenny', 'Smith', '2451', 'jenny@mendelu.hu')
+    add_receptionist('dla', 'Dimitri', 'Laszskow', '2451', 'dimml@mahalo.hu')
+    add_receptionist('reception', 'Tamara', 'Suchankova', '2451', 'tamarSuch@dmail.de')
 
 
 if __name__ == '__main__':
@@ -256,6 +287,7 @@ if __name__ == '__main__':
 
     cleanup()
 
+    User.objects.create_superuser('admin', 'admin@example.com', 'admin')
     populate_departments()
     populate_insurance()
     populate_room_types()
@@ -264,7 +296,6 @@ if __name__ == '__main__':
     populate_treatments()
     populate_diseases()
     populate_patients()
-
-    add_doctor('tdudlak', 'Tibor', 'Dudlak', '2451', 'tibi@mendelu.hu', 'Room 1')
+    populate_staff()
 
     print_all()

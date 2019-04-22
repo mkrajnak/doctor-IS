@@ -397,7 +397,7 @@ def add_visits(request):
             return go_back(request)
     else:
         form = VisitForm()
-
+    
     return render(request, 'add_form.html', {
         'form': form,
         'submit': '/' + request.path.split('/')[1] + '/add_visits/',
