@@ -14,7 +14,7 @@ DEPS = [
     'Obstetrics and gynaecology', 'Physiotherapy', 'Radiotherapy'
     ]
 ROOMTYPES = [
-    'Maintanance', 'Office', 'Storage Room', 'Czech Insurance Company',
+    'Maintanance', 'Office', 'Storage Room',
     'Ordination Room', 'Surgery Room', 'Room']
 INSURANCE = ['Generalli', 'Axa', 'Union', 'Czech Insurance Company']
 DRUGS = [
