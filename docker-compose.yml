@@ -6,7 +6,7 @@ services:
     volumes:
       - doctor-is-db:/var/lib/pgsql/data
   web:
-    image: app
+    build: .
     command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; python manage.py migrate && python populate.py && python manage.py runserver 0.0.0.0:8000'
     volumes:
       - .:/code
