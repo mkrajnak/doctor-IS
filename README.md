@@ -11,12 +11,18 @@ If you need to delete data from DB:
 To rebuild images use `docker-compose build` or `docker-compose up --build`
 
 ## Manual
-1. Assure you have database up and running
+1. Setup virtual environment
+```zsh
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+```
+2. Assure you have database up and running
 e.g. `docker run --name postgres --publish 127.0.0.1:5432:5432 -d postgres`
-2. `cd mysite`
-3. Migrate DB
+3. `cd mysite`
+4. Migrate DB
 `python manage.py migrate`
-4. Populate DB
+5. Populate DB
 `python populate.py`
-5. Run server, default: localhost:8000
+6. Run server, default: localhost:8000
 `python manage.py runserver`
