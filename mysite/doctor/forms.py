@@ -9,9 +9,9 @@ class UserForm(forms.ModelForm):
         label='Confirm Password', widget=forms.PasswordInput)
 
     def clean(self):
-        data = super(UserForm, self).clean()
-        password = data.get('password')
-        password2 = data.get('password2')
+        super().clean()
+        password = self.cleaned_data.get("password")
+        password2 = self.cleaned_data.get("password2")
         if password != password2:
             self.add_error('password2', 'Passwords are not matching')
 

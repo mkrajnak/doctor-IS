@@ -17,21 +17,37 @@
         {% if userform %}
           {% for field in userform  %}
           <label>
-              {{ field.label }}:
+              {{ field.label }}
+              {% if field.field.required%}*{% endif %}
           </label>
           <div class="pb-10">
             {{ field }}
           </div>
+          {% for error in field.errors %}
+            <div class="pb-10">
+              <label style="color: red;"> {{ error }} </label>
+            </div>
+          {% endfor %}
           {% endfor %}
         {% endif %}
         {% for field in form  %}
         <label>
-            {{ field.label }}:
+            {{ field.label }}
+            {% if field.field.required%}*{% endif %}
         </label>
         <div class="pb-10">
           {{ field }}
         </div>
+        {% for error in field.errors %}
+          <div class="pb-10">
+            <label style="color: red;"> {{ error }} </label>
+          </div>
         {% endfor %}
+        {% endfor %}
+        <hr/>
+        <div>
+          <label>Fields labelled with * are required</label>
+        </div>
         <hr/>
     <input type="submit" value="Submit" class="btn btn-primary">
     </form>
